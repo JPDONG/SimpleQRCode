@@ -16,11 +16,11 @@ public class QRHistoryItem {
         this.id = imageId;
     }
 
-    public int getImageId() {
+    public int getId() {
         return id;
     }
 
-    public void setImageId(int imageId) {
+    public void setId(int imageId) {
         this.id = imageId;
     }
 

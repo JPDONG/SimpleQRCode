@@ -29,6 +29,7 @@ public class QRHistoryItemAdapter extends ArrayAdapter<QRHistoryItem> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         QRHistoryItem qrHistoryItem = getItem(position);
+        ViewHolder holder = new ViewHolder();
         View view = LayoutInflater.from(getContext()).inflate(resourceId,null);
         ImageView itemImage = (ImageView) view.findViewById(R.id.image_item);
         TextView titleText = (TextView) view.findViewById(R.id.tv_title);
@@ -43,5 +44,12 @@ public class QRHistoryItemAdapter extends ArrayAdapter<QRHistoryItem> {
             itemImage.setImageResource(R.drawable.text);
         }
         return view;
+    }
+
+    class ViewHolder{
+        ImageView itemImage;
+        TextView titleText;
+        TextView dateText;
+        TextView messageText;
     }
 }
