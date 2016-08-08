@@ -19,7 +19,6 @@ import android.view.Window;
 import android.widget.ImageView;
 
 import com.google.zxing.Result;
-import com.learn.myqrcode.database.QRHistoryDBHelper;
 
 import java.util.Calendar;
 import java.util.regex.Matcher;
@@ -75,7 +74,7 @@ public class MainActivity extends Activity implements ZXingScannerView.ResultWor
     public void workResult(final Result var) {
         /*Toast.makeText(this, "Contents = " + var.getText() +
                 ", Format = " + var.getBarcodeFormat().toString(), Toast.LENGTH_SHORT).show();*/
-        String title = "";
+        String title;
         String date = getDate();
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
         if(isHomepage(var.getText())) {
@@ -88,6 +87,15 @@ public class MainActivity extends Activity implements ZXingScannerView.ResultWor
             title = "文字";
             insertHistory(var,title, date);
         }
+        dialogBuilder.setNeutralButton(R.string.copy, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                ClipboardManager cbm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData clipData = ClipData.newPlainText("QR_Result", var.getText());
+                cbm.setPrimaryClip(clipData);
+                resumePreview();
+            }
+        });
         AlertDialog dialog = dialogBuilder.create();
 
         dialog.setCanceledOnTouchOutside(false);
@@ -131,15 +139,6 @@ public class MainActivity extends Activity implements ZXingScannerView.ResultWor
                 resumePreview();
             }
         });
-        dialogBuilder.setNeutralButton(R.string.copy, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                ClipboardManager cbm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-                ClipData clipData = ClipData.newPlainText("QR_Result", var.getText());
-                cbm.setPrimaryClip(clipData);
-                resumePreview();
-            }
-        });
     }
 
     private void buildURLDialog(AlertDialog.Builder dialogBuilder, final Result var) {
@@ -147,15 +146,6 @@ public class MainActivity extends Activity implements ZXingScannerView.ResultWor
         dialogBuilder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                resumePreview();
-            }
-        });
-        dialogBuilder.setNeutralButton(R.string.copy, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                ClipboardManager cbm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-                ClipData clipData = ClipData.newPlainText("QR_Result", var.getText());
-                cbm.setPrimaryClip(clipData);
                 resumePreview();
             }
         });

@@ -1,4 +1,4 @@
-package com.learn.myqrcode.database;
+package com.learn.myqrcode;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
